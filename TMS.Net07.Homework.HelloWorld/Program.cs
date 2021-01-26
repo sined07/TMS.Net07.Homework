@@ -1,5 +1,11 @@
 ﻿using System;
 
+/*This is console application.
+User enter integer value. 
+Validate value is integer.
+Exit from app if enter 0.*/ 
+
+
 namespace TMS.Net07.Homework.HelloWorld
 {
     class Program
