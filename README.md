@@ -1,2 +1,4 @@
 # TMS.Net07.Homework
-Fullstack C# developer homework
+"FullStack C# developer" homework
+Volohovich Denis, 2021
+ 
