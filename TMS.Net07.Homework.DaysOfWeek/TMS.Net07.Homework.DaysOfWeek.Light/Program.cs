@@ -18,9 +18,8 @@ namespace TMS.Net07.Homework.DaysOfWeek.Light
                 if (value == "exit") 
                 {
                     return;
-                }
-                value = isUpper ? GetRuDaysOfWeek(value) : GetRuDaysOfWeek(value).ToLower();
-                Console.WriteLine(value);
+                }                
+                Console.WriteLine(isUpper ? GetRuDayOfWeek(value) : GetRuDayOfWeek(value).ToLower());
             }                
         }
 
@@ -35,9 +34,9 @@ namespace TMS.Net07.Homework.DaysOfWeek.Light
             sunday            
         }
 
-        private static string GetRuDaysOfWeek (string engDayOfWeek)
+        private static string GetRuDayOfWeek (string enDayOfWeek)
         {
-            switch (engDayOfWeek)
+            switch (enDayOfWeek)
             {
                 case nameof(DaysOfWeek.monday):
                     return "Понедельник";
