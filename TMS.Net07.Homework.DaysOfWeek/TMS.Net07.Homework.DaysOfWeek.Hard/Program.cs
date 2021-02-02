@@ -26,30 +26,13 @@ namespace TMS.Net07.Homework.DaysOfWeek
                 Console.WriteLine(GetDayOfWeekHard(value));
             }
         }
+
         private static string GetDayOfWeekHard(string dateString)
         {
             int[] dateValue = ParseDateString(dateString);
             int[] dateMin = ParseDateString(dateStringMin);
             int[] dateMax = ParseDateString(dateStringMax);
             int[] countDaysOfMonth = { 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
-
-            //validate date value
-            if (dateValue == null || dateValue.Length != 3 || dateValue[0] <= 0 || dateValue[1] <= 0 || dateValue[2] <= 0 || dateValue[1] > 12 ||
-                dateValue[0] > countDaysOfMonth[dateValue[1] - 1] || (dateValue[1] == 2 && dateValue[2] % 4 != 0 && dateValue[0] > 28) ||
-                dateValue[2] < dateMin[2] || dateValue[2] > dateMax[2])
-            {
-                return errorMessage;
-            }
-
-            //for correct calculation before 1901 require to take historical events
-            if (dateValue[2] < 1901)
-            {
-                return "Неизвестно, необходимо учитывать исторические события";
-            }
-
-            //set count days in february
-            countDaysOfMonth[1] = dateValue[2] % 4 == 0 ? 29 : 28;
-
             string[] daysOfWeek =
             {
                 "Понедельник",
@@ -61,9 +44,28 @@ namespace TMS.Net07.Homework.DaysOfWeek
                 "Воскресенье"
             };
 
+            //validate date value
+            if (dateValue == null || dateValue.Length != 3 || dateValue[0] <= 0 || dateValue[1] <= 0 || dateValue[2] <= 0 || dateValue[1] > 12 ||
+                dateValue[0] > countDaysOfMonth[dateValue[1] - 1] || (dateValue[1] == 2 && !IsLeapYear(dateValue[2]) && dateValue[0] > 28) ||
+                dateValue[2] < dateMin[2] || dateValue[2] > dateMax[2])
+            {
+                return errorMessage;
+            }
+
+            //set count days in february
+            countDaysOfMonth[1] = IsLeapYear(dateValue[2]) ? 29 : 28;
+
             //calculate count days use past years and count leap years
             int countYears = dateValue[2] - 1;
-            int countDays = countYears * 365 + (int)(countYears / 4);
+            int countLeapYears = 0;
+            for (int i = 0; i <= countYears; i++)
+            {
+                if (IsLeapYear(i))
+                {
+                    countLeapYears++;
+                }
+            }
+            int countDays = countYears * 365 + countLeapYears;
 
             //add count days use past monthes in current year
             for (int i = 0; i < dateValue[1] - 1; i++)
@@ -77,7 +79,12 @@ namespace TMS.Net07.Homework.DaysOfWeek
             //go to array index
             countDays -= 1;
 
-            return daysOfWeek[(countDays % 7)];
+            return daysOfWeek[countDays % 7];
+        }
+
+        private static bool IsLeapYear(int year)
+        {
+            return (year % 400 == 0 || (year % 100 != 0 && year % 4 == 0));
         }
 
         private static int[] ParseDateString(string dateString)
