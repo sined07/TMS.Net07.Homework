@@ -11,16 +11,33 @@ namespace TMS.Net07.Homework.Calculator.Light
         static void Main(string[] args)
         {
             InitCurrenciesDictionary();
-            PrintRatesInfo();
             while (true)
             {
-                var inputValues = GetInputValues();
-                Console.WriteLine(GetOutput(inputValues));
-                Console.WriteLine("Try again? (yes/no):");
+                string[] inputValues = GetInputValues();
+                double amount = GetOutputAmount(inputValues);
+                Console.WriteLine(amount < 0 ? "You entered is not valid value." : $"{inputValues[2]} {inputValues[0]} is equal to {amount} {inputValues[1]}");
+                Console.WriteLine("Try again? (y/n):");
                 if (!Console.ReadLine().Trim().ToLower().StartsWith('y'))
                 {
                     return;
                 }
+            }
+        }
+
+        private static void InitCurrenciesDictionary()
+        {
+            string[] code = { "BYN", "EUR", "RUB", "USD" };
+            double[] rate = { 1.0, 3.1762, 0.034670, 2.6293 };
+            for (int i = 0; i < code.Length; i++)
+            {
+                currenciesDictionary.Add(code[i], rate[i]);
+            }
+
+            //print rate info in console            
+            Console.WriteLine($"Official Exchange Rate of the Belarusian Ruble at 03-02-2021:");
+            foreach (KeyValuePair<string, double> entry in currenciesDictionary)
+            {
+                Console.WriteLine(entry.Key + ": " + entry.Value);
             }
         }
 
@@ -36,42 +53,21 @@ namespace TMS.Net07.Homework.Calculator.Light
             for (int i = 0; i < messages.Length; i++)
             {
                 Console.WriteLine(messages[i]);
-                inputValues[i] = Console.ReadLine().Trim().ToUpper();
+                inputValues[i] = Console.ReadLine().Trim().ToUpper().Replace('.', ',');
             }
             return inputValues;
         }
 
-        private static void InitCurrenciesDictionary()
-        {
-            string[] currenciesCode = { "BYN", "EUR", "RUB", "USD" };
-            double[] currenciesRate = { 1.0d, 3.1742d, 0.034693d, 2.6195d };
-            for (int i = 0; i < currenciesCode.Length; i++)
-            {
-                currenciesDictionary.Add(currenciesCode[i], currenciesRate[i]);
-            }
-        }
-
-        private static void PrintRatesInfo()
-        {
-            Console.WriteLine("Rates on 02-02-2021:");
-            foreach (KeyValuePair<string, double> entry in currenciesDictionary)
-            {
-                Console.WriteLine(entry.Key + ": " + entry.Value);
-            }
-        }
-
-        private static string GetOutput(string[] inputValues)
+        private static double GetOutputAmount(string[] inputValues)
         {
             if (!currenciesDictionary.TryGetValue(inputValues[0], out double rateSource) ||
                 !currenciesDictionary.TryGetValue(inputValues[1], out double rateTarget) ||
                 !double.TryParse(inputValues[2], out double amountSource))
             {
-                return "Input value is not valid.";
+                return -1;
             }
             double amountTarget = (rateSource / rateTarget) * amountSource;
-            amountTarget = Math.Round(amountTarget, 4);
-
-            return $"Output: {amountSource} {inputValues[0]} is equal to {amountTarget} {inputValues[1]}";
+            return Math.Round(amountTarget, 4);
         }
     }
 }
