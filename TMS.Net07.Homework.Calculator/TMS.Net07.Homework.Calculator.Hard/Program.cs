@@ -6,33 +6,49 @@ namespace TMS.Net07.Homework.Calculator.Hard
     {
 
         private static string[] operators = { "+", "-", "*", "/", "%", "pow", "sqrt", "sqr" };
-        
+
         static void Main(string[] args)
         {
-            string[] inputValues = { "10 + 3", "10-3", "10*3", "10/3", "10%3", "10 pow 3", "sqr3", "sqrt 10" };
-            for (int i = 0; i < inputValues.Length; i++)
+            Console.WriteLine("This is simple calculator.");
+            Console.WriteLine("Supported operations: " + "[{0}]", string.Join(", ", operators));
+            while (true)
             {
-                ParseStringExpression(inputValues[i]);
+                string[] inputValues = GetInputValues();
+                Console.WriteLine(GetResultMessage(inputValues));
+                Console.WriteLine("Try again? (y/n):");
+                if (!Console.ReadLine().Trim().ToLower().StartsWith('y'))
+                {
+                    return;
+                }
             }
         }
 
-        private static void ParseStringExpression(string input) 
-        {       
-            for (int i = 0; i < operators.Length; i++) {
-                if (input.Contains(operators[i]))
+        private static string[] GetInputValues()
+        {
+            Console.WriteLine("Enter expression (e.g. '7.3 + 5', '2 pow 3', 'sqrt 9'):");
+            string inputExpression = Console.ReadLine().Trim().Replace('.', ',');
+            string[] inputValues = { "num1", "num2", "operator" };
+            for (int i = 0; i < operators.Length; i++)
+            {
+                if (inputExpression.Contains(operators[i]))
                 {
-                    input = input.Replace(operators[i], " ");
-                    string[] words = input.Split(" ", StringSplitOptions.RemoveEmptyEntries);
-                    Array.Resize(ref words, 3);
-                    words[2] = operators[i];                    
-                    Console.WriteLine("[{0}]", string.Join(", ", words));
-                    if (operators[i] == "sqrt" || operators[i] == "sqr") 
+                    inputValues[2] = operators[i];
+                    inputExpression = inputExpression.Replace(operators[i], " ");
+                    string[] temp = inputExpression.Split(" ", StringSplitOptions.RemoveEmptyEntries);
+                    Array.Copy(temp, inputValues, (temp.Length > 2) ? 2 : temp.Length);
+                    if (IsUnaryOperator(operators[i]))
                     {
-                        words[1] = "0";
+                        inputValues[1] = "0";
                     }
-                    Console.WriteLine(GetResultMessage(words));
+                    break;
                 }
-            }         
+            }
+            return inputValues;
+        }
+
+        private static bool IsUnaryOperator(string op)
+        {
+            return (op == "sqr") || (op == "sqrt");
         }
 
         private static string GetResultMessage(string[] inputValues)
@@ -42,29 +58,27 @@ namespace TMS.Net07.Homework.Calculator.Hard
             {
                 return "Entered number is not valid!";
             }
+            string prefix = "result: ";
             switch (inputValues[2])
             {
                 case "+":
-                    return ("result: " + (num1 + num2));
+                    return (prefix + (num1 + num2));
                 case "-":
-                    return ("result: " + (num1 - num2));
+                    return (prefix + (num1 - num2));
                 case "*":
-                    return ("result: " + (num1 * num2));
+                    return (prefix + (num1 * num2));
                 case "/":
-                    return (num2 == 0) ? "Error - divide by 0!" : ("result: " + (num1 / num2));
+                    return (num2 == 0) ? "Error - divide by 0!" : (prefix + (num1 / num2));
                 case "%":
-                    return (num2 == 0) ? "Error - remainder by 0!" : ("result: " + (num1 % num2));
+                    return (num2 == 0) ? "Error - divide remainder by 0!" : (prefix + (num1 % num2));
                 case "pow":
-                    return ("result: " + Math.Pow(num1, num2));
+                    return (prefix + Math.Pow(num1, num2));
                 case "sqr":
-                    return ("result: " + Math.Pow(num1, 2));
+                    return (prefix + Math.Pow(num1, 2));
                 case "sqrt":
-                    return ("result: " + Math.Sqrt(num1));
-
+                    return (prefix + Math.Sqrt(num1));
             }
-
             return "Unsupported operation!";
         }
-        
     }
 }
