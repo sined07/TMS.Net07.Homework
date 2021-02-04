@@ -18,7 +18,7 @@ namespace TMS.Net07.Homework.Calculator.Hard
                 Console.WriteLine("Try again? (y/n):");
                 if (!Console.ReadLine().Trim().ToLower().StartsWith('y'))
                 {
-                    return;
+                    break;
                 }
             }
         }
