@@ -47,7 +47,7 @@ namespace TMS.Net07.Homework.Calculator.Additional
                 !int.TryParse(inputValues[1], out int number) ||
                 idAlgoritm < 1 || idAlgoritm > 3 || number < 0)
             {
-                return "You entered is not valid value.";
+                return "You entered is not valid value!";
             }
             decimal result = -1;
             switch (idAlgoritm)
@@ -62,7 +62,7 @@ namespace TMS.Net07.Homework.Calculator.Additional
                     result = GetFibonacciRecursive(number);
                     break;
             }
-            return "Result: " + $"{(result < 0 ? "Error." : result.ToString())}";
+            return "Result: " + $"{(result < 0 ? "Error!" : result.ToString())}";
         }
 
         private static decimal GetFactorialLoop(int number)

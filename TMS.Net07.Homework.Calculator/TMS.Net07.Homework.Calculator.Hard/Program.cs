@@ -35,6 +35,7 @@ namespace TMS.Net07.Homework.Calculator.Hard
                     inputValues[2] = operators[i];
                     inputExpression = inputExpression.Replace(operators[i], " ");
                     string[] temp = inputExpression.Split(" ", StringSplitOptions.RemoveEmptyEntries);
+                    //copy temp (user inputs) in inputValues (template array)
                     Array.Copy(temp, inputValues, (temp.Length > 2) ? 2 : temp.Length);
                     if (IsUnaryOperator(operators[i]))
                     {
@@ -74,7 +75,7 @@ namespace TMS.Net07.Homework.Calculator.Hard
                 case "pow":
                     return (prefix + Math.Pow(num1, num2));
                 case "sqr":
-                    return (prefix + Math.Pow(num1, 2));
+                    return (prefix + (num1 * num1));
                 case "sqrt":
                     return (prefix + Math.Sqrt(num1));
             }

@@ -60,7 +60,6 @@ namespace TMS.Net07.Homework.Calculator.Medium
                 case "%":
                     return (num2 == 0) ? "Error - divide remainder by 0!" : (prefix + (num1 % num2));
             }
-
             return "Unsupported operation!";
         }
     }
