@@ -53,7 +53,7 @@ namespace TMS.Net07.Homework.Calculator.Light
             foreach (CurrencyRate rate in listRate)
             {
                 dateRate = rate.Date.ToString("dd-MM-yyyy");
-                double scaleRate = Math.Round(rate.Cur_OfficialRate / rate.Cur_Scale, 4);
+                double scaleRate = rate.Cur_OfficialRate / rate.Cur_Scale;
                 currenciesDictionary.Add(rate.Cur_Abbreviation, scaleRate);
             }
             PrintRateInfo(dateRate);
