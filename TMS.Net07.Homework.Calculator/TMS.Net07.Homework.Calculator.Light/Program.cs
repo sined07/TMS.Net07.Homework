@@ -62,13 +62,13 @@ namespace TMS.Net07.Homework.Calculator.Light
         private static string GetJsonRateFromAPI()
         {
             WebResponse response = null;
+            StreamReader reader = null;
             String jsonRate = "";
             try
             {
                 WebRequest request = WebRequest.Create("https://www.nbrb.by/api/exrates/rates?periodicity=0");
                 response = request.GetResponse();
-                using Stream stream = response.GetResponseStream();
-                using StreamReader reader = new StreamReader(stream);
+                reader = new StreamReader(response.GetResponseStream());
                 string line = "";
                 while ((line = reader.ReadLine()) != null)
                 {
@@ -86,6 +86,10 @@ namespace TMS.Net07.Homework.Calculator.Light
                 if (response != null)
                 {
                     response.Close();
+                }
+                if (reader != null)
+                {
+                    reader.Close();
                 }
             }
             return jsonRate;
