@@ -1,18 +1,17 @@
 ﻿using System;
-using System.Reflection;
 
 namespace TMS.Net07.Homework.Calculator.Additional
 {
     class Program
     {
-
         static void Main(string[] args)
         {
             Console.WriteLine(
-                "Availables algoritms: " + Environment.NewLine +
-                "1. " + nameof(GetFactorialLoop) + Environment.NewLine +
-                "2. " + nameof(GetFactorialRecursive) + Environment.NewLine +
-                "3. " + nameof(GetFibonacciRecursive));
+            $@"Availables algoritms:
+                1. {nameof(GetFactorialLoop)}
+                2. {nameof(GetFactorialRecursive)}
+                3. {nameof(GetFibonacciRecursive)}");
+
             while (true)
             {
                 string[] inputValues = GetInputValues();
@@ -44,23 +43,32 @@ namespace TMS.Net07.Homework.Calculator.Additional
         private static string GetResultMessage(string[] inputValues)
         {
             if (!int.TryParse(inputValues[0], out int idAlgoritm) ||
-                !int.TryParse(inputValues[1], out int number) ||
-                idAlgoritm < 1 || idAlgoritm > 3 || number < 0)
+                !int.TryParse(inputValues[1], out int number) || number < 0)
             {
                 return "You entered is not valid value!";
             }
-            decimal result = -1;
-            switch (idAlgoritm)
+            decimal result;
+            try
             {
-                case 1:
-                    result = GetFactorialLoop(number);
-                    break;
-                case 2:
-                    result = GetFactorialRecursive(number);
-                    break;
-                case 3:
-                    result = GetFibonacciRecursive(number);
-                    break;
+                switch (idAlgoritm)
+                {
+                    case 1:
+                        result = GetFactorialLoop(number);
+                        break;
+                    case 2:
+                        result = GetFactorialRecursive(number);
+                        break;
+                    case 3:
+                        result = GetFibonacciRecursive(number);
+                        break;
+                    default:
+                        return "Algoritm is not available!";
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                result = -1;
             }
             return "Result: " + $"{(result < 0 ? "Error!" : result.ToString())}";
         }
@@ -73,13 +81,12 @@ namespace TMS.Net07.Homework.Calculator.Additional
             {
                 for (int i = 1; i < number; i++)
                 {
-                    factorial *= i;
+                    factorial = checked(factorial * i);
                 }
             }
-            catch (OverflowException e)
+            catch (StackOverflowException)
             {
-                Console.WriteLine(e.Message);
-                return -1;
+                throw new Exception();
             }
             return factorial;
         }
@@ -88,12 +95,11 @@ namespace TMS.Net07.Homework.Calculator.Additional
         {
             try
             {
-                return (number > 1) ? number * GetFactorialRecursive(number - 1) : 1;
+                return checked((number > 1) ? number * GetFactorialRecursive(number - 1) : 1);
             }
-            catch (OverflowException e)
+            catch (StackOverflowException)
             {
-                Console.WriteLine(e.Message);
-                return -1;
+                throw new Exception();
             }
         }
 
@@ -101,12 +107,11 @@ namespace TMS.Net07.Homework.Calculator.Additional
         {
             try
             {
-                return number > 1 ? GetFibonacciRecursive(number - 1) + GetFibonacciRecursive(number - 2) : number;
+                return checked((number > 1) ? GetFibonacciRecursive(number - 1) + GetFibonacciRecursive(number - 2) : number);
             }
-            catch (StackOverflowException e)
+            catch (StackOverflowException)
             {
-                Console.WriteLine(e.Message);
-                return -1;
+                throw new Exception();
             }
         }
     }
