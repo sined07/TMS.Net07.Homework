@@ -59,27 +59,42 @@ namespace TMS.Net07.Homework.Calculator.Hard
             {
                 return "Entered number is not valid!";
             }
-            string prefix = "result: ";
+            if (num2 == 0 && (inputValues[2] == "/" || inputValues[2] == "%"))
+            {
+                return "Error - divide by 0!";
+            }
+
+            double result;
             switch (inputValues[2])
             {
                 case "+":
-                    return (prefix + (num1 + num2));
+                    result = num1 + num2;
+                    break;
                 case "-":
-                    return (prefix + (num1 - num2));
+                    result = num1 - num2;
+                    break;
                 case "*":
-                    return (prefix + (num1 * num2));
+                    result = num1 * num2;
+                    break;
                 case "/":
-                    return (num2 == 0) ? "Error - divide by 0!" : (prefix + (num1 / num2));
+                    result = num1 / num2;
+                    break;
                 case "%":
-                    return (num2 == 0) ? "Error - divide remainder by 0!" : (prefix + (num1 % num2));
+                    result = num1 % num2;
+                    break;
                 case "pow":
-                    return (prefix + Math.Pow(num1, num2));
+                    result = Math.Pow(num1, num2);
+                    break;
                 case "sqr":
-                    return (prefix + (num1 * num1));
+                    result = num1 * num1;
+                    break;
                 case "sqrt":
-                    return (prefix + Math.Sqrt(num1));
+                    result = Math.Sqrt(num1);
+                    break;
+                default:
+                    return "Unsupported operation!";
             }
-            return "Unsupported operation!";
+            return $"result: {result}";
         }
     }
 }

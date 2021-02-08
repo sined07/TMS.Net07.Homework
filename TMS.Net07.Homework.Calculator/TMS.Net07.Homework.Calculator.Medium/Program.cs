@@ -46,6 +46,10 @@ namespace TMS.Net07.Homework.Calculator.Medium
             {
                 return "Entered number is not valid!";
             }
+            if (num2 == 0 && (inputValues[2] == "/" || inputValues[2] == "%"))
+            {
+                return "Error - divide by 0!";
+            }
             double result;
             switch (inputValues[2])
             {
@@ -53,23 +57,15 @@ namespace TMS.Net07.Homework.Calculator.Medium
                     result = num1 + num2;
                     break;
                 case "-":
-                    result = (num1 - num2);
+                    result = num1 - num2;
                     break;
                 case "*":
                     result = num1 * num2;
                     break;
                 case "/":
-                    if (num2 == 0)
-                    {
-                        return "Error - divide by 0!";
-                    }
                     result = num1 / num2;
                     break;
                 case "%":
-                    if (num2 == 0)
-                    {
-                        return "Error - divide with remainder by 0!";
-                    }
                     result = num1 % num2;
                     break;
                 default:
