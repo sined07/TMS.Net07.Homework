@@ -46,21 +46,36 @@ namespace TMS.Net07.Homework.Calculator.Medium
             {
                 return "Entered number is not valid!";
             }
-            string prefix = "result: ";
+            double result;
             switch (inputValues[2])
             {
                 case "+":
-                    return (prefix + (num1 + num2));
+                    result = num1 + num2;
+                    break;
                 case "-":
-                    return (prefix + (num1 - num2));
+                    result = (num1 - num2);
+                    break;
                 case "*":
-                    return (prefix + (num1 * num2));
+                    result = num1 * num2;
+                    break;
                 case "/":
-                    return (num2 == 0) ? "Error - divide by 0!" : (prefix + (num1 / num2));
+                    if (num2 == 0)
+                    {
+                        return "Error - divide by 0!";
+                    }
+                    result = num1 / num2;
+                    break;
                 case "%":
-                    return (num2 == 0) ? "Error - divide remainder by 0!" : (prefix + (num1 % num2));
+                    if (num2 == 0)
+                    {
+                        return "Error - divide with remainder by 0!";
+                    }
+                    result = num1 % num2;
+                    break;
+                default:
+                    return "Unsupported operation!";
             }
-            return "Unsupported operation!";
+            return $"result: {result}";
         }
     }
 }
