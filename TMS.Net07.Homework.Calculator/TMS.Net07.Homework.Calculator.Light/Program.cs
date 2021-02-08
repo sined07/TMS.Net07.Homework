@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Net;
 using System.IO;
+using System.Text;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace TMS.Net07.Homework.Calculator.Light
 {
@@ -40,7 +42,6 @@ namespace TMS.Net07.Homework.Calculator.Light
             {
                 Console.WriteLine(e.Message);
             }
-
             if (listRate == null || listRate.Count == 0)
             {
                 InitDictionaryFromHistory();
@@ -53,44 +54,39 @@ namespace TMS.Net07.Homework.Calculator.Light
             foreach (CurrencyRate rate in listRate)
             {
                 dateRate = rate.Date.ToString("dd-MM-yyyy");
-                double scaleRate = rate.Cur_OfficialRate / rate.Cur_Scale;
-                currenciesDictionary.Add(rate.Cur_Abbreviation, scaleRate);
+                double scaleRate = rate.OfficialRate / rate.Scale;
+                currenciesDictionary.Add(rate.Abbreviation, scaleRate);
             }
             PrintRateInfo(dateRate);
         }
 
         private static string GetJsonRateFromAPI()
         {
-            WebResponse response = null;
-            StreamReader reader = null;
             String jsonRate = "";
+            WebRequest request = WebRequest.Create("https://www.nbrb.by/api/exrates/rates?periodicity=0");
             try
             {
-                WebRequest request = WebRequest.Create("https://www.nbrb.by/api/exrates/rates?periodicity=0");
-                response = request.GetResponse();
-                reader = new StreamReader(response.GetResponseStream());
-                string line = "";
-                while ((line = reader.ReadLine()) != null)
+                using (WebResponse response = request.GetResponse())
                 {
-                    jsonRate += line;
+                    using (Stream stream = response.GetResponseStream())
+                    {
+                        using (StreamReader streamReader = new StreamReader(stream))
+                        {
+                            string line = "";
+                            StringBuilder builder = new StringBuilder();
+                            while ((line = streamReader.ReadLine()) != null)
+                            {
+                                builder.AppendLine(line);
+                            }
+                            jsonRate = builder.ToString();
+                        }
+                    }
                 }
-
             }
             catch (WebException e)
             {
                 Console.WriteLine(e.Message);
                 return "";
-            }
-            finally
-            {
-                if (response != null)
-                {
-                    response.Close();
-                }
-                if (reader != null)
-                {
-                    reader.Close();
-                }
             }
             return jsonRate;
         }
@@ -148,11 +144,22 @@ namespace TMS.Net07.Homework.Calculator.Light
 
     public class CurrencyRate
     {
-        public int Cur_ID { get; set; }
+        [JsonPropertyName("Cur_ID")]
+        public int ID { get; set; }
+
+        [JsonPropertyName("Date")]
         public DateTime Date { get; set; }
-        public string Cur_Abbreviation { get; set; }
-        public int Cur_Scale { get; set; }
-        public string Cur_Name { get; set; }
-        public double Cur_OfficialRate { get; set; }
+
+        [JsonPropertyName("Cur_Abbreviation")]
+        public string Abbreviation { get; set; }
+
+        [JsonPropertyName("Cur_Scale")]
+        public double Scale { get; set; }
+
+        [JsonPropertyName("Cur_Name")]
+        public string Name { get; set; }
+
+        [JsonPropertyName("Cur_OfficialRate")]
+        public double OfficialRate { get; set; }
     }
 }
