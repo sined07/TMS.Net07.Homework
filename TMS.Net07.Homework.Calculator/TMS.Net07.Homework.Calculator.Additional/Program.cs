@@ -10,7 +10,8 @@ namespace TMS.Net07.Homework.Calculator.Additional
             $@"Availables algoritms:
                 1. {nameof(GetFactorialLoop)}
                 2. {nameof(GetFactorialRecursive)}
-                3. {nameof(GetFibonacciRecursive)}");
+                3. {nameof(GetFibonacciRecursive)}
+                4. {nameof(GetFibonacciRecursiveEffective)}");
 
             while (true)
             {
@@ -28,7 +29,7 @@ namespace TMS.Net07.Homework.Calculator.Additional
         {
             string[] messages =
             {
-            "Please, select algoritm (1-3):",
+            "Please, select algoritm (1-4):",
             "Enter positive integer value:"
             };
             string[] inputValues = new string[messages.Length];
@@ -45,7 +46,7 @@ namespace TMS.Net07.Homework.Calculator.Additional
             if (!int.TryParse(inputValues[0], out int idAlgoritm) ||
                 !int.TryParse(inputValues[1], out int number) || number < 0)
             {
-                return "You entered is not valid value!";
+                return "You entered is not valid integer value!";
             }
             decimal result;
             try
@@ -60,6 +61,9 @@ namespace TMS.Net07.Homework.Calculator.Additional
                         break;
                     case 3:
                         result = GetFibonacciRecursive(number);
+                        break;
+                    case 4:
+                        result = GetFibonacciRecursiveEffective(number, new decimal[number + 1]);
                         break;
                     default:
                         return "Algoritm is not available!";
@@ -84,9 +88,9 @@ namespace TMS.Net07.Homework.Calculator.Additional
                     factorial = checked(factorial * i);
                 }
             }
-            catch (StackOverflowException)
+            catch (Exception)
             {
-                throw new Exception();
+                throw;
             }
             return factorial;
         }
@@ -97,22 +101,42 @@ namespace TMS.Net07.Homework.Calculator.Additional
             {
                 return checked((number > 1) ? number * GetFactorialRecursive(number - 1) : 1);
             }
-            catch (StackOverflowException)
+            catch (Exception)
             {
-                throw new Exception();
+                throw;
             }
         }
 
-        private static int GetFibonacciRecursive(int number)
+        private static decimal GetFibonacciRecursive(int number)
         {
             try
             {
                 return checked((number > 1) ? GetFibonacciRecursive(number - 1) + GetFibonacciRecursive(number - 2) : number);
             }
-            catch (StackOverflowException)
+            catch (Exception)
             {
-                throw new Exception();
+                throw;
             }
+        }
+
+        private static decimal GetFibonacciRecursiveEffective(int number, decimal[] buffer)
+        {
+            try
+            {
+                if (number < 2)
+                {
+                    return number;
+                }
+                if (buffer[number] == 0)
+                {
+                    buffer[number] = checked(GetFibonacciRecursiveEffective(number - 1, buffer) + GetFibonacciRecursiveEffective(number - 2, buffer));
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return buffer[number];
         }
     }
 }
