@@ -18,7 +18,7 @@ namespace TMS.Net07.Homework.Shapes.Light
             new Ellipse(new Point(0, 0), 15.23, 0.4),
             new Circle(new Point(45.26, 51), 7.393)
             };
-            foreach (global::Shape shape in shapes)
+            foreach (Shape shape in shapes)
             {
                 Console.WriteLine($"Area = {shape.GetArea()}");
             }
