@@ -6,21 +6,17 @@ namespace TMS.Net07.Homework.Shapes.Light
     {
         static void Main(string[] args)
         {
-            Test();
-        }
-
-        public static void Test()
-        {
             Shape[] shapes = {
-            new Point(15.1025, 10.478),
-            new Rectangle(new Point(17.54, -14.23), 10.54, 20.111),
-            new Square(new Point(0, 0), 19.23),
-            new Ellipse(new Point(0, 0), 15.23, 0.4),
-            new Circle(new Point(45.26, 51), 7.393)
+            new Triangle(new Point(60, 25), new Point(10, 35), new Point(75, 50)),
+            new Rectangle(new Point(55, 85), 120, 240),
+            new Square(new Point(0, 0), 180),
+            new Ellipse(new Point(105, 95), 150, 105),
+            new Circle(new Point(45, 100), 80)
             };
+            ConsoleDescriptionDrawer drawer = new ConsoleDescriptionDrawer();
             foreach (Shape shape in shapes)
             {
-                Console.WriteLine($"Area = {shape.GetArea()}");
+                drawer.Draw(shape);
             }
         }
     }
