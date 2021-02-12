@@ -1,7 +1,7 @@
 ﻿namespace TMS.Net07.Homework.Shapes.Medium
 {
     class Program
-    {   
+    {
         static void Main(string[] args)
         {
             Shape[] shapes = {
@@ -11,11 +11,11 @@
             new Ellipse(new Point(105, 95), 150, 105),
             new Circle(new Point(45, 100), 80)
             };
-            ConsoleRenderDrawer drawer = new ConsoleRenderDrawer();            
+            ConsoleRenderDrawer drawer = new ConsoleRenderDrawer();
             foreach (Shape shape in shapes)
-            {                
+            {
                 drawer.Draw(shape);
             }
-        }        
+        }
     }
 }
