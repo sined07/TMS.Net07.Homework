@@ -19,4 +19,16 @@
     {
         return $"{ToString()}: center {Point.GetInfo()}, width {Width}, height {Height}";
     }
+
+    public override string GetStringPrototype()
+    {
+        return GetStringFromLines(new string[]
+        {
+        "  ***  ",
+        "*******",
+        "*******",
+        "*******",
+        "  ***  "
+        });
+    }
 }

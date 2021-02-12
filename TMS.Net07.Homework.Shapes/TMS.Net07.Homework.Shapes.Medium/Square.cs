@@ -6,4 +6,15 @@
         Width = width;
         Height = width;
     }
+
+    public override string GetStringPrototype()
+    {
+        return GetStringFromLines(new string[]
+        {
+        "*******",
+        "*******",
+        "*******",
+        "*******"
+        });
+    }
 }

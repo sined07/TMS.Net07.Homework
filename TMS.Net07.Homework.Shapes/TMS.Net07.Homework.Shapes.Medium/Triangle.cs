@@ -19,4 +19,15 @@
     {
         return $"{ToString()}: {Point1.GetInfo()}, {Point2.GetInfo()}, {Point3.GetInfo()}";
     }
+
+    public override string GetStringPrototype()
+    {
+        return GetStringFromLines(new string[]
+        {
+        "   *   ",
+        "  ***  ",
+        " ***** ",
+        "*******"
+        });
+    }
 }

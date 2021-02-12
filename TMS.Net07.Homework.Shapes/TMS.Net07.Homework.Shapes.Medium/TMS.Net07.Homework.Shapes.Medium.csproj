@@ -14,10 +14,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="System.Drawing.Common" Version="5.0.1" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Compile Update="Triangle.cs">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Compile>
