@@ -7,6 +7,7 @@ public class ConsoleCommandDrawer
     private List<Shape> listShape = new List<Shape>();
     private ConsoleDescriptionDrawer logger = new ConsoleDescriptionDrawer();
     private ConsoleRenderDrawer drawer = new ConsoleRenderDrawer();
+    private bool isWork = true;
     private readonly string[,] commands = new string[,]
     {
         { "help", "help" },
@@ -23,7 +24,7 @@ public class ConsoleCommandDrawer
     public void Init()
     {
         PrintHelp();
-        while (true)
+        while (isWork)
         {
             Console.WriteLine("Enter command:");
             ExecuteCommand(Console.ReadLine().ToLower());
@@ -43,7 +44,7 @@ public class ConsoleCommandDrawer
                 return;
             // command exit
             case string _ when command.Contains(commands[++index, 0]):
-                System.Environment.Exit(0);
+                isWork = false;
                 return;
             // command log
             case string _ when command.Contains(commands[++index, 0]):
@@ -91,30 +92,10 @@ public class ConsoleCommandDrawer
                         new Point(args[2], args[3]));
                 break;
             default:
-                Console.WriteLine("Unrecognised command!");
+                Console.WriteLine("Unsupported command!");
                 return;
         }
         AddShape(shape);
-    }
-
-    private void PrintHelp()
-    {
-        Console.WriteLine("Supported commands:");
-        for (int i = 0; i < commands.GetLength(0); i++)
-        {
-            Console.WriteLine($"'{commands[i, 0]}' to usage enter e.g.: {commands[i, 1]}");
-        }
-    }
-
-    private void AddShape(Shape shape)
-    {
-        if (shape == null)
-        {
-            Console.WriteLine("Unrecognised shape args!");
-            return;
-        }
-        listShape.Add(shape);
-        drawer.Draw(shape);
     }
 
     private int[] GetIntArgs(string command, string separator)
@@ -162,6 +143,48 @@ public class ConsoleCommandDrawer
         foreach (Shape shape in listShape)
         {
             logger.Draw($"{ ++i}. ", shape);
+        }
+    }
+
+    private void AddShape(Shape shape)
+    {
+        if (shape == null)
+        {
+            Console.WriteLine("Unrecognised shape args!");
+            return;
+        }
+        listShape.Add(shape);
+        drawer.Draw(shape);
+    }
+
+    private void PrintHelp()
+    {
+        Console.WriteLine("Supported commands:");
+        for (int i = 0; i < commands.GetLength(0); i++)
+        {
+            string tab = commands[i, 0].Length < 8 ? "\t\t" : "\t";
+            Console.WriteLine($"{commands[i, 0]}{tab}example usage: {commands[i, 1]}");
+
+        }
+    }
+
+    private void Test()
+    {
+        string[] commands =
+        {
+            "help",
+            "square (30,50) 15",
+            "circle (25,20) 10",
+            "ellipse (5,9) 3 7" ,
+            "triangle (1,3) (2,4) (3,4)",
+            "rectangle (15,21) (35,80)",
+            "log",
+            "draw -1"
+            };
+
+        foreach (string command in commands)
+        {
+            ExecuteCommand(command);
         }
     }
 }
