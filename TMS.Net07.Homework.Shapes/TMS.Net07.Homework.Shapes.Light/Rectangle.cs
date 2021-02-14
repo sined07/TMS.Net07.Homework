@@ -15,6 +15,13 @@
         Height = height;
     }
 
+    public Rectangle(Point point1, Point point2)
+    {
+        Point = point1;
+        Width = point2.X - point1.X;
+        Height = point2.Y - point1.Y;
+    }
+
     public override string GetInfo()
     {
         return $"{ToString()}: " +

@@ -6,10 +6,6 @@ public class Triangle : Shape
     public Point Point2 { get; set; }
     public Point Point3 { get; set; }
 
-    protected Triangle()
-    {
-    }
-
     public Triangle(Point point1, Point point2, Point point3)
     {
         Point1 = point1;

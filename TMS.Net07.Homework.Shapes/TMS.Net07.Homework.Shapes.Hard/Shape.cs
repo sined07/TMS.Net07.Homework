@@ -1,6 +1,4 @@
-﻿using System.Text;
-
-public abstract class Shape
+﻿public abstract class Shape
 {
     public virtual string GetInfo()
     {
