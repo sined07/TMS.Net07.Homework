@@ -116,7 +116,7 @@ public class ConsoleCommandDrawer
 
     private void DrawShape(int[] args)
     {
-        if (args == null)
+        if (args == null || args.Length == 0)
         {
             Console.WriteLine("Index shape to draw is unrecognised!");
             return;
@@ -170,20 +170,10 @@ public class ConsoleCommandDrawer
 
     private void Test()
     {
-        string[] commands =
+        for (int i = 0; i < commands.GetLength(0); i++)
         {
-            "help",
-            "square (30,50) 15",
-            "circle (25,20) 10",
-            "ellipse (5,9) 3 7" ,
-            "triangle (1,3) (2,4) (3,4)",
-            "rectangle (15,21) (35,80)",
-            "log",
-            "draw -1"
-            };
-
-        foreach (string command in commands)
-        {
+            string command = commands[i, 1];
+            Console.WriteLine("Execute command: " + command);
             ExecuteCommand(command);
         }
     }
