@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="triangle.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="triangle.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Triangle.cs">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Compile>
+  </ItemGroup>
+
+</Project>
